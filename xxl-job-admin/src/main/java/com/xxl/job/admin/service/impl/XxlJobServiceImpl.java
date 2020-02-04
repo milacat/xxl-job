@@ -328,15 +328,15 @@ public class XxlJobServiceImpl implements XxlJobService {
 		int triggerCountRunningTotal = 0;
 		int triggerCountSucTotal = 0;
 		int triggerCountFailTotal = 0;
-
+        //按日期查询job的调度日志
 		List<XxlJobLogReport> logReportList = xxlJobLogReportDao.queryLogReport(startDate, endDate);
 
 		if (logReportList!=null && logReportList.size()>0) {
 			for (XxlJobLogReport item: logReportList) {
-				String day = DateUtil.formatDate(item.getTriggerDay());
-				int triggerDayCountRunning = item.getRunningCount();
-				int triggerDayCountSuc = item.getSucCount();
-				int triggerDayCountFail = item.getFailCount();
+				String day = DateUtil.formatDate(item.getTriggerDay()); //调度时间
+				int triggerDayCountRunning = item.getRunningCount();  //调度次数
+				int triggerDayCountSuc = item.getSucCount();  //执行成功次数
+				int triggerDayCountFail = item.getFailCount(); //执行失败次数
 
 				triggerDayList.add(day);
 				triggerDayCountRunningList.add(triggerDayCountRunning);
@@ -348,6 +348,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 				triggerCountFailTotal += triggerDayCountFail;
 			}
 		} else {
+			// 默认展示最近一周的数据
 			for (int i = -6; i <= 0; i++) {
 				triggerDayList.add(DateUtil.formatDate(DateUtil.addDays(new Date(), i)));
 				triggerDayCountRunningList.add(0);
