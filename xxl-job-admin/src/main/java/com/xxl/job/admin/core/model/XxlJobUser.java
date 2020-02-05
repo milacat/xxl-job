@@ -1,16 +1,23 @@
 package com.xxl.job.admin.core.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.util.StringUtils;
 
 /**
  * @author xuxueli 2019-05-04 16:43:12
  */
+@ApiModel("xxl-job系统用户实体对象")
 public class XxlJobUser {
 	
 	private int id;
-	private String username;		// 账号
-	private String password;		// 密码
+	@ApiModelProperty("账号")
+	private String username; // 账号
+	@ApiModelProperty("密码")
+	private String password;  // 密码
+	@ApiModelProperty("角色：0-普通用户、1-管理员")
 	private int role;				// 角色：0-普通用户、1-管理员
+	@ApiModelProperty("权限：执行器ID列表，多个逗号分割")
 	private String permission;	// 权限：执行器ID列表，多个逗号分割
 
 	public int getId() {

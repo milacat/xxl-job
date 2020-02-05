@@ -25,7 +25,7 @@ import java.util.Map;
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
-@Api("首页数据查询接口")
+@Api(value = "IndexController", description = "首页Controller")
 public class IndexController {
 
 	@Resource
@@ -35,6 +35,7 @@ public class IndexController {
 
 
 	@RequestMapping(value = "/", method={RequestMethod.GET})
+	@ApiOperation(value = "统计面板数据")
 	public String index(Model model) {
 
 		Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();

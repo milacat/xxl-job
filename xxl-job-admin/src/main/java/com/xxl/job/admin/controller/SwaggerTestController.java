@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Date;
 
 @Controller
-@Api("swagger-ui test")
+@Api(value = "swagger-ui test", description = "swagger api 测试")
 @RequestMapping("/swagger")
 public class SwaggerTestController {
 

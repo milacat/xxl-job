@@ -1,5 +1,7 @@
 package com.xxl.job.admin.core.model;
 
+import io.swagger.annotations.ApiModel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 /**
  * Created by xuxueli on 16/9/30.
  */
+@ApiModel("执行器实体对象")
 public class XxlJobGroup {
 
     private int id;

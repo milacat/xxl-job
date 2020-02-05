@@ -8,6 +8,8 @@ import com.xxl.job.admin.dao.XxlJobInfoDao;
 import com.xxl.job.admin.dao.XxlJobRegistryDao;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/jobgroup")
+@Api(value = "JobGroupController", description = "执行器管理Controller")
 public class JobGroupController {
 
 	@Resource
@@ -32,6 +35,7 @@ public class JobGroupController {
 	private XxlJobRegistryDao xxlJobRegistryDao;
 
 	@RequestMapping
+	@ApiOperation(value = "查询执行器列表", httpMethod = "GET")
 	public String index(Model model) {
 
 		// job group (executor)
@@ -43,6 +47,7 @@ public class JobGroupController {
 
 	@RequestMapping("/save")
 	@ResponseBody
+	@ApiOperation(value = "新增执行器", httpMethod = "POST")
 	public ReturnT<String> save(XxlJobGroup xxlJobGroup){
 
 		// valid
@@ -73,6 +78,7 @@ public class JobGroupController {
 
 	@RequestMapping("/update")
 	@ResponseBody
+	@ApiOperation(value = "编辑执行器", httpMethod = "POST")
 	public ReturnT<String> update(XxlJobGroup xxlJobGroup){
 		// valid
 		if (xxlJobGroup.getAppName()==null || xxlJobGroup.getAppName().trim().length()==0) {
@@ -98,7 +104,7 @@ public class JobGroupController {
 			}
 			xxlJobGroup.setAddressList(addressListStr);
 		} else {
-			// 1=手动录入
+			// 1=手动录入 增加了一个检查录入执行器注册地址是否合法的校验
 			if (xxlJobGroup.getAddressList()==null || xxlJobGroup.getAddressList().trim().length()==0) {
 				return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit") );
 			}
@@ -138,9 +144,10 @@ public class JobGroupController {
 
 	@RequestMapping("/remove")
 	@ResponseBody
+	@ApiOperation(value = "删除执行器", httpMethod = "POST")
 	public ReturnT<String> remove(int id){
 
-		// valid
+		// valid 如果有任务仍在使用执行器，则无法直接删除
 		int count = xxlJobInfoDao.pageListCount(0, 10, id, -1,  null, null, null);
 		if (count > 0) {
 			return new ReturnT<String>(500, I18nUtil.getString("jobgroup_del_limit_0") );
@@ -157,6 +164,7 @@ public class JobGroupController {
 
 	@RequestMapping("/loadById")
 	@ResponseBody
+	@ApiOperation(value = "根据id查询执行去详情", httpMethod = "POST")
 	public ReturnT<XxlJobGroup> loadById(int id){
 		XxlJobGroup jobGroup = xxlJobGroupDao.load(id);
 		return jobGroup!=null?new ReturnT<XxlJobGroup>(jobGroup):new ReturnT<XxlJobGroup>(ReturnT.FAIL_CODE, null);

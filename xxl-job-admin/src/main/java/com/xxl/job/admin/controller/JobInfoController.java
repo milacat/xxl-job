@@ -36,7 +36,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/jobinfo")
-@Api("任务管理")
+@Api(value = "JobInfoController", description = "任务管理Controller")
 public class JobInfoController {
 
 	@Resource

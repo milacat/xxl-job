@@ -286,8 +286,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 	@Override
 	public Map<String, Object> dashboardInfo() {
 
-		int jobInfoCount = xxlJobInfoDao.findAllCount();
-		int jobLogCount = 0;
+		int jobInfoCount = xxlJobInfoDao.findAllCount(); //任务数量
+		int jobLogCount = 0;   //调度次数
 		int jobLogSuccessCount = 0;
 		XxlJobLogReport xxlJobLogReport = xxlJobLogReportDao.queryLogReportTotal();
 		if (xxlJobLogReport != null) {
@@ -295,9 +295,9 @@ public class XxlJobServiceImpl implements XxlJobService {
 			jobLogSuccessCount = xxlJobLogReport.getSucCount();
 		}
 
-		// executor count
+		// executor count 在线的执行器数量统计
 		Set<String> executorAddressSet = new HashSet<String>();
-		List<XxlJobGroup> groupList = xxlJobGroupDao.findAll();
+		List<XxlJobGroup> groupList = xxlJobGroupDao.findAll();  //先查询所有的执行器
 
 		if (groupList!=null && !groupList.isEmpty()) {
 			for (XxlJobGroup group: groupList) {

@@ -8,6 +8,9 @@ import com.xxl.job.admin.dao.XxlJobGroupDao;
 import com.xxl.job.admin.dao.XxlJobUserDao;
 import com.xxl.job.admin.service.LoginService;
 import com.xxl.job.core.biz.model.ReturnT;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
@@ -27,6 +30,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
+@Api(value = "用户管理", description = "用户管理")
 public class UserController {
 
     @Resource
@@ -36,6 +40,7 @@ public class UserController {
 
     @RequestMapping
     @PermissionLimit(adminuser = true)
+    @ApiOperation(value = "查询执行器列表", httpMethod = "GET")
     public String index(Model model) {
 
         // 执行器列表
@@ -48,9 +53,11 @@ public class UserController {
     @RequestMapping("/pageList")
     @ResponseBody
     @PermissionLimit(adminuser = true)
+    @ApiOperation(value = "查询用户列表", httpMethod = "POST")
     public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
                                         @RequestParam(required = false, defaultValue = "10") int length,
-                                        String username, int role) {
+                                        @ApiParam("帐号名") String username,
+                                        @ApiParam("角色")  int role) {
 
         // page list
         List<XxlJobUser> list = xxlJobUserDao.pageList(start, length, username, role);
@@ -67,6 +74,7 @@ public class UserController {
     @RequestMapping("/add")
     @ResponseBody
     @PermissionLimit(adminuser = true)
+    @ApiOperation(value = "添加用户", httpMethod = "POST")
     public ReturnT<String> add(XxlJobUser xxlJobUser) {
 
         // valid username
@@ -102,6 +110,7 @@ public class UserController {
     @RequestMapping("/update")
     @ResponseBody
     @PermissionLimit(adminuser = true)
+    @ApiOperation(value = "更新用户", httpMethod = "POST")
     public ReturnT<String> update(HttpServletRequest request, XxlJobUser xxlJobUser) {
 
         // avoid opt login seft
@@ -130,6 +139,7 @@ public class UserController {
     @RequestMapping("/remove")
     @ResponseBody
     @PermissionLimit(adminuser = true)
+    @ApiOperation(value = "删除用户", httpMethod = "POST")
     public ReturnT<String> remove(HttpServletRequest request, int id) {
 
         // avoid opt login seft
@@ -144,6 +154,7 @@ public class UserController {
 
     @RequestMapping("/updatePwd")
     @ResponseBody
+    @ApiOperation(value = "修改密码", httpMethod = "POST")
     public ReturnT<String> updatePwd(HttpServletRequest request, String password){
 
         // valid password
