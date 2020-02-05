@@ -13,6 +13,8 @@ import com.xxl.job.core.biz.ExecutorBiz;
 import com.xxl.job.core.biz.model.LogResult;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.util.DateUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,7 @@ public class JobLogController {
 	public XxlJobLogDao xxlJobLogDao;
 
 	@RequestMapping
+	@ApiOperation(value = "default index", httpMethod = "POST")
 	public String index(HttpServletRequest request, Model model, @RequestParam(required = false, defaultValue = "0") Integer jobId) {
 
 		// 执行器列表
@@ -76,13 +79,15 @@ public class JobLogController {
 
 	@RequestMapping("/getJobsByGroup")
 	@ResponseBody
-	public ReturnT<List<XxlJobInfo>> getJobsByGroup(int jobGroup){
+	@ApiOperation(value = "根据执行器编号查询任务", httpMethod = "POST")
+	public ReturnT<List<XxlJobInfo>> getJobsByGroup(@ApiParam("执行器编号") int jobGroup){
 		List<XxlJobInfo> list = xxlJobInfoDao.getJobsByGroup(jobGroup);
 		return new ReturnT<List<XxlJobInfo>>(list);
 	}
 	
 	@RequestMapping("/pageList")
 	@ResponseBody
+	@ApiOperation(value = "查询调度日志", httpMethod = "POST")
 	public Map<String, Object> pageList(HttpServletRequest request,
 										@RequestParam(required = false, defaultValue = "0") int start,
 										@RequestParam(required = false, defaultValue = "10") int length,
@@ -115,6 +120,7 @@ public class JobLogController {
 	}
 
 	@RequestMapping("/logDetailPage")
+	@ApiOperation(value = "logDetailPage", httpMethod = "POST")
 	public String logDetailPage(int id, Model model){
 
 		// base check
@@ -134,6 +140,7 @@ public class JobLogController {
 
 	@RequestMapping("/logDetailCat")
 	@ResponseBody
+	@ApiOperation(value = "logDetailCat", httpMethod = "POST")
 	public ReturnT<LogResult> logDetailCat(String executorAddress, long triggerTime, long logId, int fromLineNum){
 		try {
 			ExecutorBiz executorBiz = XxlJobScheduler.getExecutorBiz(executorAddress);
@@ -156,6 +163,7 @@ public class JobLogController {
 
 	@RequestMapping("/logKill")
 	@ResponseBody
+	@ApiOperation(value = "logKill", httpMethod = "POST")
 	public ReturnT<String> logKill(int id){
 		// base check
 		XxlJobLog log = xxlJobLogDao.load(id);
@@ -190,6 +198,7 @@ public class JobLogController {
 
 	@RequestMapping("/clearLog")
 	@ResponseBody
+	@ApiOperation(value = "clearLog", httpMethod = "POST")
 	public ReturnT<String> clearLog(int jobGroup, int jobId, int type){
 
 		Date clearBeforeTime = null;

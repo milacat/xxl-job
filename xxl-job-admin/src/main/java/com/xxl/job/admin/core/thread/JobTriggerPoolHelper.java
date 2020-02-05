@@ -129,12 +129,12 @@ public class JobTriggerPoolHelper {
 
     /**
      * @param jobId
-     * @param triggerType
-     * @param failRetryCount
+     * @param triggerType 执行类型
+     * @param failRetryCount  失败重试次数
      * 			>=0: use this param
-     * 			<0: use param from job info config
-     * @param executorShardingParam
-     * @param executorParam
+     * 			<0: use param from job info config  <0,默认使用任务中的配置
+     * @param executorShardingParam 分片
+     * @param executorParam 执行参数
      *          null: use job param
      *          not null: cover job param
      */

@@ -16,6 +16,9 @@ import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import com.xxl.job.core.util.DateUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +36,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/jobinfo")
+@Api("任务管理")
 public class JobInfoController {
 
 	@Resource
@@ -89,19 +93,22 @@ public class JobInfoController {
 			throw new RuntimeException(I18nUtil.getString("system_permission_limit") + "[username="+ loginUser.getUsername() +"]");
 		}
 	}
-	
-	@RequestMapping("/pageList")
 	@ResponseBody
-	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,  
-			@RequestParam(required = false, defaultValue = "10") int length,
-			int jobGroup, int triggerStatus, String jobDesc, String executorHandler, String author) {
+	@RequestMapping("/pageList")
+	@ApiOperation(value = "任务管理列表", httpMethod = "POST")
+	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
+										@RequestParam(required = false, defaultValue = "10") int length,
+										@ApiParam("任务所属组") int jobGroup, @ApiParam(name = "调度状态") int triggerStatus,
+										@ApiParam("任务描述") String jobDesc, @ApiParam("执行器") String executorHandler,
+										@ApiParam("负责人") String author) {
 		
 		return xxlJobService.pageList(start, length, jobGroup, triggerStatus, jobDesc, executorHandler, author);
 	}
 	
 	@RequestMapping("/add")
 	@ResponseBody
-	public ReturnT<String> add(XxlJobInfo jobInfo) {
+	@ApiOperation(value = "添加任务", httpMethod = "POST")
+	public ReturnT<String> add(@ApiParam XxlJobInfo jobInfo) {
 		return xxlJobService.add(jobInfo);
 	}
 	
@@ -131,8 +138,9 @@ public class JobInfoController {
 	
 	@RequestMapping("/trigger")
 	@ResponseBody
+	@ApiOperation(value = "手动执行任务1次", httpMethod = "POST")
 	//@PermissionLimit(limit = false)
-	public ReturnT<String> triggerJob(int id, String executorParam) {
+	public ReturnT<String> triggerJob(@ApiParam("任务id") int id, @ApiParam("执行参数") String executorParam) {
 		// force cover job param
 		if (executorParam == null) {
 			executorParam = "";
