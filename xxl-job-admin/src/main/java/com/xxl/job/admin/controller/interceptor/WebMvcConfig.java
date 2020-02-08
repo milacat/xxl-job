@@ -20,6 +20,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Resource
     private CookieInterceptor cookieInterceptor;
 
+    /**
+     * 配置拦截器，如果有多个，按照配置拦截器的顺序执行
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(permissionInterceptor).addPathPatterns("/**");

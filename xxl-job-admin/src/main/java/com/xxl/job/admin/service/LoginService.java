@@ -78,7 +78,7 @@ public class LoginService {
 
     /**
      * logout
-     *
+     * 判断是否登陆
      * @param request
      * @return
      */

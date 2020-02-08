@@ -41,6 +41,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 		}
 
 		if (needLogin) {
+			//检查是否登陆
 			XxlJobUser loginUser = loginService.ifLogin(request, response);
 			if (loginUser == null) {
 				response.sendRedirect(request.getContextPath() + "/toLogin");
